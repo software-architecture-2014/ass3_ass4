@@ -49,7 +49,8 @@ class Erstelle(MainHandler):
 
         all_stops.append(stop)
 
-    ndb.put_multi(all_stops)
+    self.response.out.write("wrote " + str(len(ndb.put_multi(all_stops))) + " elements")
+    self.response.out.write('<br>All done')
 
 app = webapp2.WSGIApplication([('/', FrontPage),
                                ('/erstelle', Erstelle)])
