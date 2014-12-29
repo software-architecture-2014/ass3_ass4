@@ -17,7 +17,7 @@ class Routes(ndb.Model):
 
 class Mapping(ndb.Model):
     stop_id = ndb.StringProperty(required = True)
-    routes_id = ndb.StringProperty(required = True)
+    route_id = ndb.StringProperty(required = True)
 
 class MainHandler(webapp2.RequestHandler):
   pass
@@ -34,22 +34,33 @@ class Erstelle(MainHandler):
     return [ codecs.encode(word, 'utf-8') for word in l ]
 
   def get(self):
+    
     ndb.delete_multi( Stops.query().fetch(keys_only=True) )
+    ndb.delete_multi( Mapping.query().fetch(keys_only=True) )
 
-    all_stops = []
+    all_stops, all_mappings = [], []
+
 
     with codecs.open('stops.csv', 'r', 'utf-8') as input_file:
       all_lines = input_file.readlines()
-      for line in all_lines[1:]:
 
-        words = line.split()
-        stop = Stops(stop_id = words[0],
-                     location = ndb.GeoPt(", ".join( words[1:3][::-1])),
-                     name = " ".join(self.encode_list(words[3:])))
+    for line in all_lines[1:]:
+      words = line.split()
+      stop = Stops(stop_id = words[0],
+                   location = ndb.GeoPt(", ".join( words[1:3][::-1])),
+                   name = " ".join(self.encode_list(words[3:])))
+      all_stops.append(stop)
 
-        all_stops.append(stop)
+    with codecs.open('mapping.csv', 'r', 'utf-8') as input_file:
+      all_lines = input_file.readlines()
 
-    self.response.out.write("wrote " + str(len(ndb.put_multi(all_stops))) + " elements")
+    for line in all_lines[1:]:
+      words = line.split('|')
+      all_mappings.append(Mapping(stop_id = words[1],
+                                  route_id = words[0]))
+    ndb.put_multi(all_stops)
+    ndb.put_multi(all_mappings)
+
     self.response.out.write('<br>All done')
 
 app = webapp2.WSGIApplication([('/', FrontPage),
