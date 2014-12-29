@@ -1,0 +1,25 @@
+{
+  "name": "ass3-octo-frozen-ironman",
+  "version": "1",
+  "homepage": "https://github.com/software-architecture-2014/ass3_ass4",
+  "authors": [
+    "David Wittenbrink <david.wittenbrink@gmail.com>",
+    "Franco Nieddu <franco.nieddu@student.tugraz.at>",
+    "Jakov Matic <matic@student.tugraz.at>"
+  ],
+  "description": "Software architecture ass3 tu graz",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.2",
+    "core-scaffold": "Polymer/core-scaffold#~0.5.2"
+  }
+}
