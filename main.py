@@ -73,5 +73,5 @@ class Erstelle(MainHandler):
 
     self.response.out.write('All done')
 
-app = webapp2.WSGIApplication([('/', FrontPage),
-                               ('/erstelle', Erstelle)])
+app = webapp2.WSGIApplication([('/', FrontPage)""",
+                               ('/erstelle', Erstelle)"""])
