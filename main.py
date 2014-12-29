@@ -37,9 +37,9 @@ class Erstelle(MainHandler):
     
     ndb.delete_multi( Stops.query().fetch(keys_only=True) )
     ndb.delete_multi( Mapping.query().fetch(keys_only=True) )
+    ndb.delete_multi( Routes.query().fetch(keys_only=True) )
 
-    all_stops, all_mappings = [], []
-
+    all_stops, all_mappings, all_routes = [], [], []
 
     with codecs.open('stops.csv', 'r', 'utf-8') as input_file:
       all_lines = input_file.readlines()
@@ -58,10 +58,20 @@ class Erstelle(MainHandler):
       words = line.split('|')
       all_mappings.append(Mapping(stop_id = words[1],
                                   route_id = words[0]))
+
+    with codecs.open('routes.csv', 'r', 'utf-8') as input_file:
+      all_lines = input_file.readlines()
+
+    for line in all_lines[1:]:
+      words = line.split('|')
+      all_routes.append(Routes(routes_id = words[0],
+                               name = words[1]))
+
     ndb.put_multi(all_stops)
     ndb.put_multi(all_mappings)
+    ndb.put_multi(all_routes)
 
-    self.response.out.write('<br>All done')
+    self.response.out.write('All done')
 
 app = webapp2.WSGIApplication([('/', FrontPage),
                                ('/erstelle', Erstelle)])
