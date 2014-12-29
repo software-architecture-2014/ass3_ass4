@@ -38,7 +38,7 @@ class Erstelle(MainHandler):
 
     all_stops = []
 
-    with codecs.open('test.csv', 'r', 'utf-8') as input_file:
+    with codecs.open('stops.csv', 'r', 'utf-8') as input_file:
       all_lines = input_file.readlines()
       for line in all_lines[1:]:
 
