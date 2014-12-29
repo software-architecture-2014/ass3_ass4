@@ -20,6 +20,8 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#~0.5.2",
-    "core-scaffold": "Polymer/core-scaffold#~0.5.2"
+    "core-scaffold": "Polymer/core-scaffold#~0.5.2",
+    "core-menu": "Polymer/core-menu#~0.5.2",
+    "core-item": "Polymer/core-item#~0.5.2"
   }
 }

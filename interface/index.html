@@ -2,13 +2,25 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<script src="bower_components/polymer/polymer.js"></script>
+	<script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 	<title>Octo Frozen Ironman Ass3</title>
 	<link rel="import" href="bower_components/core-scaffold/core-scaffold.html">
+  <link rel="import" href="bower_components/core-menu/core-menu.html">
+  <link rel="import" href="bower_components/core-item/core-item.html">
 </head>
-<body>
+<body unresolved fullbleed>
 	<core-scaffold>
-	</core-scaffold>
+  <core-header-panel navigation flex mode="seamed">
+    <core-toolbar>Octo Frozen Ironman</core-toolbar>
+    <core-menu theme="core-light-theme" selected="0">
+      <core-item icon="settings" label="Query Stops"></core-item>
+      <core-item icon="settings" label="Filter"></core-item>
+      <core-item icon="settings" label="Connection"></core-item>
+    </core-menu>
+  </core-header-panel>
+  <div tool>Title</div>
+  <div>Main content goes here...</div>
+</core-scaffold>
 
 </body>
 </html>
