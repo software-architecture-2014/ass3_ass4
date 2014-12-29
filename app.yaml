@@ -5,6 +5,9 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /.*
+- url: /
+  static_dir: interface
+
+- url: /app/.*
   script: main.app
   secure: always
