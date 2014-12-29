@@ -24,8 +24,8 @@ class MainHandler(webapp2.RequestHandler):
 
 class FrontPage(MainHandler):
   ""
-  def get(self):
-    self.response.out.write('Hello World!')
+  def get(self, url):
+    self.response.out.write(url)
 
 class Erstelle(MainHandler):
 #20911104    15.4526367    47.0593698    Moserhofgasse
