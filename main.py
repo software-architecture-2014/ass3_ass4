@@ -35,7 +35,6 @@ class Erstelle(MainHandler):
 
   def get(self):
     ndb.delete_multi( Stops.query().fetch(keys_only=True) )
-
     all_stops = []
 
     with codecs.open('stops.csv', 'r', 'utf-8') as input_file:
