@@ -1,0 +1,12 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<polymer-element name="my-filter" noscript>
+  <template>
+     <form action="/app/filteredStation" method="get" target = "_blank">
+     Filter By Name: <input type="text" name="Name" value=""><br>
+     Filter by Lat : <input type="text" name="Lat" value=""><br>
+     Filter by Lon : <input type="text" name="Lon" value=""><br>
+     <input type="submit" value="Submit">
+     </form>
+  </template>
+</polymer-element>
+

@@ -1,7 +1,9 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-
-<polymer-element name="browse">
+<polymer-element name="my-browse" noscript>
   <template>
-      
+     {% for stop in stops %}
+      <div> {{ stop }} </div>
+      {% endfor %} 
   </template>
 </polymer-element>
+

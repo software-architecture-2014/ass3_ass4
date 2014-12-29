@@ -2,6 +2,8 @@
 import webapp2
 import logging
 import codecs
+import jinja2
+import os
 from google.appengine.ext import ndb
 
 
@@ -20,12 +22,30 @@ class Mapping(ndb.Model):
     route_id = ndb.StringProperty(required = True)
 
 class MainHandler(webapp2.RequestHandler):
-  pass
+  #init jinja
+  jinja_environment = jinja2.Environment(autoescape=True, 
+      loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), "dynamicHTML")))
 
-class FrontPage(MainHandler):
+class BrowsePage(MainHandler):
   ""
-  def get(self, url):
-    self.response.out.write(url)
+  def get(self):
+    #self.response.out.write(url)
+    stops = [ s.name for s in Stops.query().fetch() ]
+    stops = sorted(list(set(stops)))
+    p = self.jinja_environment.get_template("Browse.html").render(stops = stops)
+    self.response.out.write(p)
+
+class FilterPage(MainHandler):
+  ""
+  def get(self):
+    p = self.jinja_environment.get_template("Filter.html").render()
+    self.response.out.write(p)
+
+class ConnectionPage(MainHandler):
+  ""
+  def get(self):
+    p = self.jinja_environment.get_template("Connection.html").render()
+    self.response.out.write(p)
 
 class Erstelle(MainHandler):
 #20911104    15.4526367    47.0593698    Moserhofgasse
@@ -73,4 +93,6 @@ class Erstelle(MainHandler):
 
     self.response.out.write('All done')
 
-app = webapp2.WSGIApplication([('(.*).html', FrontPage)])
+app = webapp2.WSGIApplication([('/app/Browse.html', BrowsePage),
+                               ('/app/Filter.html', FilterPage),
+                               ('/app/Connection.html', ConnectionPage)])
