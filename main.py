@@ -71,10 +71,14 @@ class FilterResult(MainHandler):
     except ValueError:
       self.response.out.write("an error occurred! Try a valid Latitude/Longitude")
       return
-      
-    stops = [ s.name for s in stops ]
-    stops = sorted(list(set(self.encode_list(stops))))
-    self.response.out.write(stops)
+
+    if stops:
+      stops = [ s.name for s in stops ]
+      stops = sorted(list(set(self.encode_list(stops))))
+      for s in stops:
+        self.response.out.write(s + "<br>")
+    else:
+      self.response.out.write("You filtered to good!")
 
 class ConnectResult(MainHandler):
   ""
@@ -86,7 +90,9 @@ class ConnectResult(MainHandler):
       #First get the Stop IDs
       first_ids = Stops.query().filter(Stops.name == first_stop.capitalize()).fetch()
       sec_ids   = Stops.query().filter(Stops.name == sec_stop.capitalize()).fetch()
-      
+      if not first_ids or not sec_ids:
+        self.response.out.write("an error occurred! Try valid stops")
+        return
       #todo next: get all routes where those ids are in
       first_ids = [ s.stop_id for s in first_ids ]
       sec_ids   = [ s.stop_id for s in sec_ids ]
@@ -94,7 +100,6 @@ class ConnectResult(MainHandler):
       first_routes = Mapping.query(Mapping.stop_id.IN(first_ids)).fetch()
       second_routes = Mapping.query(Mapping.stop_id.IN(sec_ids)).fetch()
       
-
       connected_ids = []
 
       for first_route in first_routes:
@@ -102,8 +107,13 @@ class ConnectResult(MainHandler):
           if first_route.route_id == second_route.route_id:
             connected_ids.append(first_route.route_id)
 
-      result = Routes.query(Routes.route_id.IN(connected_ids)).fetch()
-      self.response.out.write(result)
+      if connected_ids:
+        result = Routes.query(Routes.route_id.IN(connected_ids)).fetch()
+        result = [ r.name for r in result ]
+        for r in result:
+          self.response.out.write(r + '<br>')
+      else:
+        self.response.out.write("There is no Connection between those two stops!")
 
 
 class Erstelle(MainHandler):
