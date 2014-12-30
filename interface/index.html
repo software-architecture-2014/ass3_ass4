@@ -13,7 +13,8 @@
         <link rel="import" href="/app/Browse.html">
         <link rel="import" href="/app/Filter.html">
         <link rel="import" href="/app/Connection.html">
-        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>body {font-family: 'Roboto Condensed', sans-serif;}</style>
     </head>
     <body unresolved fullbleed>
@@ -52,9 +53,9 @@
         <script>
             var template = document.querySelector('template[is="auto-binding"]');
             template.pages = [
-            {name: "Browse", hash: 'one', content: "arsch"},
-            {name: "Filter", hash: "two", content: "Fotzhobel"},
-            {name: "Connection", hash: "three", content: "penis"},
+            {name: "Browse", hash: 'one', content: "browse content"},
+            {name: "Filter", hash: "two", content: "filter content"},
+            {name: "Connection", hash: "three", content: "connection content"},
             ];
 
             template.addEventListener('template-bound', function(e) {
