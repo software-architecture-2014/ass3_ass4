@@ -14,7 +14,7 @@ class Stops(ndb.Model):
     location = ndb.GeoPtProperty(required = True)
 
 class Routes(ndb.Model):
-    routes_id = ndb.StringProperty(required = True)
+    route_id = ndb.StringProperty(required = True)
     name = ndb.StringProperty(required = True)
 
 class Mapping(ndb.Model):
@@ -85,14 +85,27 @@ class ConnectResult(MainHandler):
     if first_stop and sec_stop:
       #First get the Stop IDs
       first_ids = Stops.query().filter(Stops.name == first_stop.capitalize()).fetch()
-      sec_ids   = Stops.query().filter(Stops.name == sec_stop).fetch()
+      sec_ids   = Stops.query().filter(Stops.name == sec_stop.capitalize()).fetch()
       
       #todo next: get all routes where those ids are in
       first_ids = [ s.stop_id for s in first_ids ]
       sec_ids   = [ s.stop_id for s in sec_ids ]
 
-      routes_ids = Mapping.query(Mapping.stop_id.IN(first_ids)).fetch()
-      self.response.out.write(first_ids)
+      first_routes = Mapping.query(Mapping.stop_id.IN(first_ids)).fetch()
+      second_routes = Mapping.query(Mapping.stop_id.IN(sec_ids)).fetch()
+      
+
+      connected_ids = []
+
+      for first_route in first_routes:
+        for second_route in second_routes:
+          if first_route.route_id == second_route.route_id:
+            connected_ids.append(first_route.route_id)
+
+      result = Routes.query(Routes.route_id.IN(connected_ids)).fetch()
+      self.response.out.write(result)
+
+
 class Erstelle(MainHandler):
 #20911104    15.4526367    47.0593698    Moserhofgasse
   
@@ -118,7 +131,7 @@ class Erstelle(MainHandler):
 
     for line in all_lines[1:]:
       words = line.split('|')
-      all_mappings.append(Mapping(stop_id = words[1],
+      all_mappings.append(Mapping(stop_id = words[1].replace('\r', '').replace('\n', ''),
                                   route_id = words[0]))
 
     with codecs.open('routes.csv', 'r', 'utf-8') as input_file:
@@ -126,8 +139,8 @@ class Erstelle(MainHandler):
 
     for line in all_lines[1:]:
       words = line.split('|')
-      all_routes.append(Routes(routes_id = words[0],
-                               name = words[1]))
+      all_routes.append(Routes(route_id = words[0],
+                               name = words[1].replace('\r', '').replace('\n', '')))
 
     ndb.put_multi(all_stops)
     ndb.put_multi(all_mappings)
@@ -139,4 +152,5 @@ app = webapp2.WSGIApplication([('/app/Browse.html', BrowsePage),
                                ('/app/Filter.html', FilterPage),
                                ('/app/Connection.html', ConnectionPage),
                                ('/app/filteredStation', FilterResult),
-                               ('/app/ConnStation',ConnectResult)])
+                               ('/app/ConnStation', ConnectResult),
+                               ('/app/Erstelle', Erstelle)])
