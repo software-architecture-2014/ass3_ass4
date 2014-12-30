@@ -1,7 +1,19 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <polymer-element name="my-connection" noscript>
   <template>
-     <h1>Connection</h1>
+     <form action="/app/ConnStation" method="get" target = "_blank">
+         <table>
+            <tr>
+               <td>1. Stop :</td>
+               <td><input type="text" name="First" value=""></td>
+            </tr>
+            <tr>
+               <td>2. Stop :</td>
+               <td><input type="text" name="Sec" value=""></td>
+            </tr>
+         </table>
+         <input type="submit" value="Submit">
+      </form>
   </template>
 </polymer-element>
 
